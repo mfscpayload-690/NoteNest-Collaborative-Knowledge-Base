@@ -22,8 +22,8 @@ environment for everyone.
 
 You can contribute in multiple areas:
 
-- Frontend development (Next.js, UI/UX)
-- Backend development (REST / GraphQL APIs)
+- Frontend development (Next.js, UI/UX, etc)
+- Backend development (REST, GraphQL APIs, etc)
 - Documentation and technical writing
 - Testing and quality assurance
 - Accessibility improvements
