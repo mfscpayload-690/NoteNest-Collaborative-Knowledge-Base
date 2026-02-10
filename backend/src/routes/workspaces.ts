@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import Workspace from '../models/Workspace';
 import { AuditService } from '../services/auditService';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, AuthRequest } from '../middleware/auth';
 
 const router = express.Router();
 
