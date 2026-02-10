@@ -86,10 +86,25 @@ export default function WorkspaceDashboardPage({ workspaceId }: { workspaceId: s
           }
         />
         <main
-          className="flex-1 p-6 sm:p-8 overflow-auto flex gap-6"
-          style={{ background: "var(--color-background)" }}
+          className="flex-1 overflow-auto flex gap-6 relative"
+          style={{
+            background: "var(--color-background)",
+            backgroundImage: "linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%)"
+          }}
         >
-          <div className="flex-1 min-w-0 flex flex-col gap-8 max-w-4xl">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div
+              className="absolute top-20 right-10 w-72 h-72 rounded-full blur-3xl opacity-20"
+              style={{ background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)" }}
+            ></div>
+            <div
+              className="absolute bottom-32 left-10 w-96 h-96 rounded-full blur-3xl opacity-15"
+              style={{ background: "radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)" }}
+            ></div>
+          </div>
+
+          <div className="flex-1 min-w-0 flex flex-col gap-8 max-w-4xl mx-auto p-4 sm:p-6 md:p-8 relative z-10">
             {/* Welcome — compact hero */}
             <section
               className="rounded-2xl border p-6 sm:p-7 transition-shadow duration-200 hover:shadow-md"

@@ -103,17 +103,17 @@ export default function Home() {
   const isLoading = (buttonId: string) => loadingButtons.has(buttonId);
 
   return (
-    <main 
+    <main
       className="min-h-screen relative overflow-hidden"
-      style={{ 
+      style={{
         color: 'var(--color-text-primary)',
         background: 'var(--color-background)',
         backgroundImage: 'linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, transparent 25%, transparent 75%, rgba(139, 92, 246, 0.06) 100%)'
       }}
     >
       {/* Skip to main content link for keyboard navigation */}
-      <a 
-        href="#hero" 
+      <a
+        href="#hero"
         className="skip-to-main"
         onFocus={(e) => {
           e.currentTarget.style.top = '0';
@@ -124,6 +124,8 @@ export default function Home() {
       >
         Skip to main content
       </a>
+
+      <div className="w-full max-w-screen-2xl mx-auto px-6 sm:px-8 lg:px-12">
       {/* Scroll Progress Indicator */}
       <div 
         className="fixed top-0 left-0 right-0 h-1 z-50 transition-opacity duration-300"
@@ -158,40 +160,39 @@ export default function Home() {
       </div>
 
       {/* Header */}
-      <header 
+      <header
         className="sticky top-0 z-50 transition-all duration-300 border-b"
-        style={{ 
+        style={{
           background: 'var(--color-background)',
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
           borderColor: 'var(--color-border-light)',
-          boxShadow: isScrolled 
-            ? '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' 
-            : '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)'
+          boxShadow: isScrolled
+            ? '0 8px 16px -2px rgba(0, 0, 0, 0.12), 0 4px 8px -1px rgba(0, 0, 0, 0.08)'
+            : '0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04)'
         }}
       >
-        <div 
-          className="max-w-7xl mx-auto w-full"
-          style={{ 
-            paddingLeft: 'clamp(var(--space-md), 4vw, var(--space-xl))',
-            paddingRight: 'clamp(var(--space-md), 4vw, var(--space-xl))',
-            paddingTop: 'clamp(var(--space-md), 3vw, var(--space-lg))',
-            paddingBottom: 'clamp(var(--space-md), 3vw, var(--space-lg))'
+        <div
+          className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8"
+          style={{
+            paddingTop: 'clamp(var(--space-sm), 2vw, var(--space-lg))',
+            paddingBottom: 'clamp(var(--space-sm), 2vw, var(--space-lg))'
           }}
         >
           <div className="flex items-center justify-between w-full" style={{ alignItems: 'center', width: '100%', gap: 0 }}>
             {/* Logo Section - Left */}
-            <Link 
+            <Link
               href="/"
               className="group flex items-center transition-all duration-300 hover:scale-105 active:scale-95"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              style={{ 
+              style={{
                 minWidth: 'fit-content',
                 alignItems: 'center',
-                flexShrink: 0
+                flexShrink: 0,
+                marginLeft: 'var(--space-lg)'
               }}
             >
               <div className="flex flex-col items-start justify-center" style={{ lineHeight: '1.2' }}>
@@ -407,304 +408,83 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section 
+      <section
         id="hero"
         className="relative"
-        style={{ 
-          paddingTop: 'clamp(var(--space-lg), 4vw, var(--space-xl))',
-          paddingBottom: 'clamp(var(--space-2xl), 6vw, var(--space-3xl))'
+        style={{
+          paddingTop: 'clamp(2rem, 8vw, 6rem)',
+          paddingBottom: 'clamp(2.5rem, 10vw, 8rem)'
         }}
       >
-        <div 
-          className="mx-auto w-full"
-          style={{ 
-            maxWidth: '1280px',
-            paddingLeft: 'clamp(var(--space-md), 4vw, var(--space-xl))',
-            paddingRight: 'clamp(var(--space-md), 4vw, var(--space-xl))',
-            paddingTop: 'clamp(var(--space-md), 3vw, var(--space-xl))'
-          }}
-        >
-        <div 
-          className={`text-center transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%'
-          }}
-        >
-          <h2 
-            className="leading-tight"
-            style={{ 
-              fontSize: 'clamp(var(--font-size-4xl), 8vw, var(--font-size-5xl))',
-              fontWeight: 'var(--font-weight-bold)',
-              lineHeight: '1.1',
-              marginBottom: 'clamp(var(--space-xl), 4vw, var(--space-2xl))',
-              maxWidth: '900px',
-              width: '100%',
-              letterSpacing: '-0.03em',
-              textAlign: 'center'
-            }}
-          >
-            <span 
-              style={{
-                color: 'var(--color-text-primary)',
-                display: 'block'
-              }}
-            >
-              Capture, Organize &{" "}
-            </span>
-            <span 
-              className="block"
-              style={{
-                marginTop: 'clamp(var(--space-sm), 2vw, var(--space-md))',
-                background: 'linear-gradient(135deg, var(--color-info) 0%, #8b5cf6 50%, #a855f7 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
-              Share Knowledge
-          </span>
-        </h2>
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className="mx-auto w-full" style={{ maxWidth: '1200px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <h2 className="leading-tight text-center" style={{ fontSize: 'clamp(2rem, 7vw, 4rem)', fontWeight: 'var(--font-weight-bold)', lineHeight: 1.05, marginBottom: 'clamp(2rem, 6vw, 4rem)', width: '100%' }}>
+                <span style={{ color: 'var(--color-text-primary)', display: 'block' }}>Capture, Organize &</span>
+                <span style={{ display: 'block', marginTop: 'clamp(var(--space-sm), 2vw, var(--space-md))', background: 'linear-gradient(135deg, var(--color-info) 0%, #8b5cf6 50%, #a855f7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontSize: '0.8em' }}>Share Knowledge</span>
+              </h2>
 
-          <p 
-            className="leading-relaxed"
-            style={{ 
-              color: 'var(--color-text-secondary)',
-              fontSize: 'clamp(var(--font-size-lg), 2.5vw, var(--font-size-xl))',
-              lineHeight: '1.7',
-              maxWidth: '768px',
-              width: '100%',
-              marginBottom: 'clamp(var(--space-2xl), 5vw, var(--space-3xl))',
-              fontWeight: 'var(--font-weight-medium)',
-              letterSpacing: '-0.01em',
-              textAlign: 'center',
-              marginLeft: 'auto',
-              marginRight: 'auto'
-            }}
-          >
-          NoteNest helps teams document ideas, decisions, and learnings
-            in a shared, searchable space. Build your team's collective intelligence.
-          </p>
+              <p className="text-center" style={{ color: 'var(--color-text-secondary)', fontSize: 'clamp(1.125rem, 2.6vw, 1.375rem)', lineHeight: 1.7, maxWidth: '1100px', marginBottom: 'clamp(var(--space-2xl), 5vw, var(--space-3xl))' }}>
+                NoteNest helps teams document ideas, decisions, and learnings in a shared, searchable space. Build your team's collective intelligence.
+              </p>
 
-          <div 
-            className="flex flex-col sm:flex-row items-center justify-center"
-            style={{ 
-              gap: 'clamp(var(--space-md), 3vw, var(--space-lg))',
-              width: '100%',
-              maxWidth: '600px'
-            }}
-          >
-        <button
-          onClick={() => handleNavigation('/notes?new=1', 'create-note')}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              handleNavigation('/notes?new=1', 'create-note');
-            }
-          }}
-          disabled={isLoading('create-note')}
-          aria-busy={isLoading('create-note')}
-          className={`btn-primary button-ripple button-glow magnetic-button group flex items-center justify-center gap-2 ${isLoading('create-note') ? 'loading' : ''}`}
-          style={{ 
-            fontSize: 'clamp(var(--font-size-base), 2vw, var(--font-size-lg))',
-            padding: 'clamp(0.875rem, 2.5vw, 1rem) clamp(1.75rem, 5vw, 2rem)',
-            boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.4), 0 4px 6px -2px rgba(59, 130, 246, 0.3)',
-            opacity: isLoading('create-note') ? 0.75 : 1,
-            minHeight: '48px',
-            minWidth: 'clamp(200px, 40vw, 240px)',
-            width: '100%',
-            maxWidth: '280px',
-            cursor: isLoading('create-note') ? 'wait' : 'pointer'
-          }}
-          aria-label={isLoading('create-note') ? 'Loading...' : 'Create your first note'}
-        >
-              <span className="relative z-10 flex items-center gap-2 justify-center">
-                <span className="whitespace-nowrap">Create Your First Note</span>
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 opacity-80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </button>
-             <button 
-               onClick={() => scrollToSection('features')}
-               onKeyDown={(e) => {
-                 if (e.key === 'Enter' || e.key === ' ') {
-                   e.preventDefault();
-                   scrollToSection('features');
-                 }
-               }}
-               disabled={isLoading('scroll-features')}
-               aria-busy={isLoading('scroll-features')}
-               className={`group relative rounded-xl font-semibold transition-all duration-300 focus:outline-none overflow-hidden flex items-center justify-center gap-2 button-ripple hover-lift magnetic-button ${isLoading('scroll-features') ? 'loading' : ''}`}
-               aria-label={isLoading('scroll-features') ? 'Loading...' : 'Learn more about features'}
-              onFocus={(e) => {
-                e.currentTarget.style.background = 'var(--color-info)';
-                e.currentTarget.style.color = 'white';
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                e.currentTarget.style.boxShadow = '0 8px 20px -5px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1)';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.background = 'var(--color-background)';
-                e.currentTarget.style.color = 'var(--color-info)';
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02)';
-              }}
-              style={{ 
-                border: '2px solid var(--color-info)',
-                color: 'var(--color-info)',
-                fontSize: 'clamp(var(--font-size-base), 2vw, var(--font-size-lg))',
-                fontWeight: 'var(--font-weight-semibold)',
-                padding: 'clamp(0.875rem, 2.5vw, 1rem) clamp(1.75rem, 5vw, 2rem)',
-                background: 'var(--color-background)',
-                boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
-                minHeight: '48px',
-                minWidth: 'clamp(200px, 40vw, 240px)',
-                width: '100%',
-                maxWidth: '280px',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'var(--color-info)';
-                e.currentTarget.style.color = 'white';
-                e.currentTarget.style.borderColor = 'var(--color-info)';
-                e.currentTarget.style.boxShadow = '0 8px 20px -5px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1)';
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                e.currentTarget.style.cursor = 'pointer';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'var(--color-background)';
-                e.currentTarget.style.color = 'var(--color-info)';
-                e.currentTarget.style.borderColor = 'var(--color-info)';
-                e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02)';
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-              }}
-              onMouseDown={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(0.97)';
-                e.currentTarget.style.boxShadow = '0 2px 4px -1px rgba(59, 130, 246, 0.2)';
-              }}
-              onMouseUp={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                e.currentTarget.style.boxShadow = '0 8px 20px -5px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1)';
-              }}
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                Learn More
-                <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5 icon-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </span>
-            </button>
-          </div>
-          
-          {/* Stats or Trust Indicators */}
-          <div 
-            className="flex flex-wrap items-center justify-center"
-            style={{ 
-              gap: 'clamp(var(--space-lg), 4vw, var(--space-xl))',
-              marginTop: 'clamp(3rem, 8vw, 5rem)',
-              width: '100%',
-              maxWidth: '600px'
-            }}
-          >
-            <div 
-              className="flex items-center gap-2.5 sm:gap-3 rounded-lg transition-all duration-200 cursor-default"
-              style={{ 
-                background: 'var(--color-background)',
-                border: '1px solid var(--color-border-light)',
-                padding: 'clamp(0.625rem, 2.5vw, 0.875rem) clamp(1rem, 4vw, 1.5rem)',
-                boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
-                minHeight: '40px'
-              }}
-            >
-              <div 
-                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                style={{ background: 'var(--color-success)', boxShadow: '0 0 0 2px rgba(34, 197, 94, 0.2)' }}
-              ></div>
-              <span 
-                className="text-sm font-semibold whitespace-nowrap"
-                style={{ 
-                  color: 'var(--color-text-primary)',
-                  fontWeight: 'var(--font-weight-semibold)',
-                  fontSize: 'clamp(var(--font-size-xs), 2vw, var(--font-size-sm))'
-                }}
-              >
-                Trusted by teams worldwide
-              </span>
-            </div>
-            <div 
-              className="flex items-center gap-2.5 sm:gap-3 rounded-lg transition-all duration-200 cursor-default"
-              style={{ 
-                background: 'var(--color-background)',
-                border: '1px solid var(--color-border-light)',
-                padding: 'clamp(0.625rem, 2.5vw, 0.875rem) clamp(1rem, 4vw, 1.5rem)',
-                boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02)',
-                minHeight: '40px'
-              }}
-            >
-              <svg 
-                className="w-5 h-5 flex-shrink-0" 
-                style={{ color: 'var(--color-info)' }} 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              <span 
-                className="text-sm font-semibold whitespace-nowrap"
-                style={{ 
-                  color: 'var(--color-text-primary)',
-                  fontWeight: 'var(--font-weight-semibold)',
-                  fontSize: 'clamp(var(--font-size-xs), 2vw, var(--font-size-sm))'
-                }}
-              >
-                Enterprise-grade security
-              </span>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full" style={{ maxWidth: '1000px' }}>
+                <button onClick={() => handleNavigation('/notes?new=1', 'create-note')} disabled={isLoading('create-note')} aria-busy={isLoading('create-note')} className={`btn-primary group flex items-center justify-center`} style={{ fontSize: 'clamp(1rem, 2.2vw, 1.25rem)', padding: 'clamp(1.125rem, 3.2vw, 1.5rem) clamp(2.25rem, 6.5vw, 3rem)', minHeight: '60px', minWidth: '260px', borderRadius: 12 }} aria-label={isLoading('create-note') ? 'Loading...' : 'Create your first note'}>
+                  <span className="relative z-10">Create Your First Note</span>
+                </button>
+
+                <button onClick={() => scrollToSection('features')} disabled={isLoading('scroll-features')} aria-busy={isLoading('scroll-features')} className="group relative rounded-xl font-semibold flex items-center justify-center" style={{ border: '2px solid var(--color-info)', color: 'var(--color-info)', padding: 'clamp(0.875rem, 2.5vw, 1rem) clamp(1.75rem, 5vw, 2rem)', minHeight: '48px', minWidth: '200px' }}>
+                  <span>Learn More</span>
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-6 mt-12" style={{ maxWidth: '900px' }}>
+                <div className="flex items-center gap-3 rounded-lg" style={{ background: 'var(--color-background)', border: '1px solid var(--color-border-light)', padding: '0.75rem 1rem' }}>
+                  <div style={{ width: 10, height: 10, borderRadius: 9999, background: 'var(--color-success)' }}></div>
+                  <span style={{ color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-semibold)' }}>Trusted by teams worldwide</span>
+                </div>
+
+                <div className="flex items-center gap-3 rounded-lg" style={{ background: 'var(--color-background)', border: '1px solid var(--color-border-light)', padding: '0.75rem 1rem' }}>
+                  <svg className="w-5 h-5" style={{ color: 'var(--color-info)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                  <span style={{ color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-semibold)' }}>Enterprise-grade security</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section 
+      <section
         id="features"
         className="relative scroll-mt-20 overflow-hidden"
-        style={{ 
+        style={{
           background: 'var(--color-background)',
           backgroundImage: 'linear-gradient(135deg, rgba(59, 130, 246, 0.04) 0%, transparent 50%, rgba(139, 92, 246, 0.04) 100%)',
-          paddingTop: 'clamp(var(--space-2xl), 6vw, var(--space-3xl))',
-          paddingBottom: 'clamp(var(--space-2xl), 6vw, var(--space-3xl))',
+          paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-4xl))',
+          paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-4xl))',
           borderTop: '1px solid var(--color-border-light)',
           borderBottom: '1px solid var(--color-border-light)'
         }}
       >
         {/* Decorative background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div 
-            className="absolute top-0 left-1/4 w-64 h-64 rounded-full blur-3xl opacity-20"
-            style={{ 
-              background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)'
+          <div
+            className="absolute top-0 left-1/4 w-80 h-80 rounded-full blur-3xl opacity-25"
+            style={{
+              background: 'radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, transparent 70%)'
             }}
           ></div>
-          <div 
-            className="absolute bottom-0 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-20"
-            style={{ 
-              background: 'radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%)'
+          <div
+            className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full blur-3xl opacity-25"
+            style={{
+              background: 'radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, transparent 70%)'
             }}
           ></div>
         </div>
 
-        <div 
-          className="mx-auto relative z-10 w-full"
-          style={{ 
-            maxWidth: '1280px',
-            paddingLeft: 'clamp(var(--space-md), 4vw, var(--space-xl))',
-            paddingRight: 'clamp(var(--space-md), 4vw, var(--space-xl))'
-          }}
+        <div
+          className="max-w-7xl mx-auto relative z-10 w-full px-4 sm:px-6 lg:px-8"
         >
           <div 
             className={`transition-all duration-1000 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
@@ -716,17 +496,17 @@ export default function Home() {
               width: '100%'
             }}
           >
-            <div 
-              style={{ 
+            <div
+              style={{
                 display: 'flex',
                 justifyContent: 'center',
                 width: '100%',
                 marginBottom: 'var(--space-xl)'
               }}
             >
-              <h3 
+              <h3
                 className="rounded-2xl relative overflow-hidden group"
-                style={{ 
+                style={{
                   background: 'linear-gradient(135deg, var(--color-info) 0%, #8b5cf6 100%)',
                   color: 'white',
                   fontSize: 'clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl))',
@@ -743,7 +523,7 @@ export default function Home() {
                   width: 'auto',
                   maxWidth: '100%',
                   textAlign: 'center',
-                  margin: '0 auto'
+                  margin: 'var(--space-lg) auto 0 auto'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.05)';
@@ -781,8 +561,8 @@ export default function Home() {
           </div>
 
           <div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center"
-            style={{ gap: 'clamp(var(--space-lg), 4vw, var(--space-2xl))' }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center w-full"
+            style={{ gap: 'clamp(var(--space-lg), 4vw, var(--space-2xl))', paddingLeft: 'clamp(var(--space-md), 3vw, var(--space-2xl))', paddingRight: 'clamp(var(--space-md), 3vw, var(--space-2xl))' }}
           >
             <Feature
               icon="📝"
@@ -810,45 +590,39 @@ export default function Home() {
       </section>
 
       {/* Benefits Section */}
-      <section 
+      <section
         id="benefits"
         className="relative overflow-hidden"
-        style={{ 
-          paddingTop: 'clamp(var(--space-2xl), 6vw, var(--space-3xl))',
-          paddingBottom: 'clamp(var(--space-2xl), 6vw, var(--space-3xl))',
+        style={{
+          paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-4xl))',
+          paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-4xl))',
           background: 'var(--color-background)',
           backgroundImage: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 50%, rgba(139, 92, 246, 0.05) 100%)'
         }}
       >
         {/* Decorative background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div 
-            className="absolute top-1/4 left-0 w-96 h-96 rounded-full blur-3xl opacity-15"
-            style={{ 
-              background: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%)'
+          <div
+            className="absolute top-1/4 left-0 w-[500px] h-[500px] rounded-full blur-3xl opacity-20"
+            style={{
+              background: 'radial-gradient(circle, rgba(59, 130, 246, 0.45) 0%, transparent 70%)'
             }}
           ></div>
-          <div 
-            className="absolute bottom-1/4 right-0 w-96 h-96 rounded-full blur-3xl opacity-15"
-            style={{ 
-              background: 'radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%)'
+          <div
+            className="absolute bottom-1/4 right-0 w-[500px] h-[500px] rounded-full blur-3xl opacity-20"
+            style={{
+              background: 'radial-gradient(circle, rgba(139, 92, 246, 0.45) 0%, transparent 70%)'
             }}
           ></div>
         </div>
 
-        <div 
-          className="mx-auto relative z-10 w-full"
-          style={{ 
-            maxWidth: '1280px',
-            paddingLeft: 'clamp(var(--space-md), 4vw, var(--space-xl))',
-            paddingRight: 'clamp(var(--space-md), 4vw, var(--space-xl))'
-          }}
+        <div
+          className="max-w-7xl mx-auto relative z-10 w-full px-4 sm:px-6 lg:px-8"
         >
-          <div 
-            className="grid grid-cols-1 lg:grid-cols-2 items-center justify-items-center"
-            style={{ gap: 'clamp(var(--space-xl), 5vw, var(--space-3xl))' }}
+          <div
+            className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16 xl:gap-20"
           >
-            <div className={`w-full max-w-lg text-center lg:text-left transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+            <div className={`w-full max-w-lg text-center lg:text-left transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`} style={{ paddingLeft: 'var(--space-lg)' }}>
               <div className="inline-block mb-6">
                 <span 
                   className="inline-flex items-center rounded-lg transition-all duration-200 hover:opacity-90 border uppercase tracking-wide"
@@ -1020,10 +794,9 @@ export default function Home() {
                 }}
               >
                 {/* Stats Grid */}
-                <div 
-                  className="grid grid-cols-2"
-                  style={{ gap: 'clamp(var(--space-md), 3vw, var(--space-xl))' }}
-                >
+          <div
+            className="grid grid-cols-2 gap-6 lg:gap-8"
+          >
                   <StatCard
                     number="10K+"
                     label="Active Teams"
@@ -1156,23 +929,24 @@ export default function Home() {
                 width: '100%'
               }}
             >
-              <Link 
+              <Link
                 href="/login"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigation('/login', 'get-started-cta');
                 }}
                 aria-busy={isLoading('get-started-cta')}
-                className={`link-primary button-ripple button-glow magnetic-button group text-center flex items-center justify-center w-full sm:w-auto ${isLoading('get-started-cta') ? 'loading' : ''}`}
-                style={{ 
+                className={`link-primary button-ripple button-glow magnetic-button group text-center flex items-center justify-center w-full sm:w-auto transition-all duration-300 hover:scale-105 active:scale-95 ${isLoading('get-started-cta') ? 'loading' : ''}`}
+                style={{
                   fontSize: 'clamp(var(--font-size-base), 2vw, var(--font-size-lg))',
-                  padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem)',
-                  boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.4), 0 4px 6px -2px rgba(59, 130, 246, 0.3)',
-                  minWidth: 'clamp(180px, 30vw, 220px)',
-                  minHeight: '44px',
+                  padding: 'clamp(1rem, 3vw, 1.25rem) clamp(2rem, 5vw, 2.5rem)',
+                  boxShadow: '0 12px 32px -6px rgba(59, 130, 246, 0.5), 0 6px 12px -3px rgba(59, 130, 246, 0.4)',
+                  minWidth: 'clamp(200px, 35vw, 250px)',
+                  minHeight: '56px',
                   flex: '1 1 auto',
                   cursor: isLoading('get-started-cta') ? 'wait' : 'pointer',
-                  opacity: isLoading('get-started-cta') ? 0.75 : 1
+                  opacity: isLoading('get-started-cta') ? 0.75 : 1,
+                  borderRadius: '12px'
                 }}
               >
                 <span className="relative z-10">Get Started for Free</span>
@@ -1201,50 +975,45 @@ export default function Home() {
       </section>
 
       {/* Footer Section */}
-      <footer 
+      <footer
         id="footer"
         className="relative border-t"
-        style={{ 
+        style={{
           background: 'linear-gradient(135deg, var(--color-gray-900) 0%, #1a1a2e 100%)',
           borderColor: 'var(--color-gray-700)',
           color: 'var(--color-gray-300)',
-          marginTop: 'var(--space-3xl)',
+          marginTop: 'var(--space-4xl)',
           borderTopWidth: '2px'
         }}
       >
-        <div 
-          className="mx-auto w-full"
-          style={{ 
-            maxWidth: '1280px',
-            paddingLeft: 'clamp(var(--space-md), 4vw, var(--space-xl))',
-            paddingRight: 'clamp(var(--space-md), 4vw, var(--space-xl))',
-            paddingTop: 'clamp(var(--space-2xl), 6vw, var(--space-3xl))',
-            paddingBottom: 'clamp(var(--space-2xl), 6vw, var(--space-3xl))'
+        <div
+          className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8"
+          style={{
+            paddingTop: 'clamp(var(--space-3xl), 8vw, var(--space-4xl))',
+            paddingBottom: 'clamp(var(--space-3xl), 8vw, var(--space-4xl))'
           }}
         >
-          <div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-            style={{ 
-              gap: 'clamp(var(--space-lg), 4vw, var(--space-xl))',
-              marginBottom: 'clamp(var(--space-xl), 4vw, var(--space-2xl))'
-            }}
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 xl:gap-16 mb-12 lg:mb-16 xl:mb-20"
           >
             <div>
-              <h4 
+              <h4
                 className="font-bold"
-                style={{ 
-                  color: 'var(--color-gray-50)', 
+                style={{
+                  color: 'var(--color-gray-50)',
                   fontSize: 'var(--font-size-lg)',
-                  marginBottom: 'var(--space-md)'
+                  marginBottom: 'var(--space-md)',
+                  marginLeft: 'var(--space-lg)'
                 }}
               >
                 NoteNest
               </h4>
-              <p 
+              <p
                 className="text-sm"
-                style={{ 
+                style={{
                   color: 'var(--color-gray-400)',
-                  lineHeight: 'var(--line-height-relaxed)'
+                  lineHeight: 'var(--line-height-relaxed)',
+                  marginLeft: 'var(--space-lg)'
                 }}
               >
                 Collaborative knowledge base for modern teams
@@ -1388,6 +1157,7 @@ export default function Home() {
           </svg>
         </button>
       )}
+      </div>
     </main>
   );
 }
@@ -1412,15 +1182,18 @@ function Feature({
       className={`group relative rounded-2xl transition-all duration-300 overflow-hidden card-enter ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
       style={{ 
         transitionDelay: `${delay}ms`,
-        background: 'var(--color-background)',
-        border: `1px solid ${isHovered ? 'rgba(59, 130, 246, 0.25)' : 'var(--color-border-light)'}`,
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.005) 100%)',
+        border: `1.5px solid ${isHovered ? 'rgba(59, 130, 246, 0.35)' : 'rgba(59, 130, 246, 0.1)'}`,
         boxShadow: isHovered 
-          ? '0 4px 12px -4px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)'
-          : '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
-        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+          ? '0 20px 40px -10px rgba(59, 130, 246, 0.15), 0 8px 16px -4px rgba(0, 0, 0, 0.1)'
+          : '0 8px 20px -8px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.05)',
+        transform: isHovered ? 'translateY(-4px) scale(1.02)' : 'translateY(0) scale(1)',
         padding: 'clamp(var(--space-lg), 4vw, var(--space-2xl))',
-        transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-        cursor: 'default'
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        cursor: 'default',
+        minHeight: '360px',
+        maxWidth: '360px',
+        width: '100%'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

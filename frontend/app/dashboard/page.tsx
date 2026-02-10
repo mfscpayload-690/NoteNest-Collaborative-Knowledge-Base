@@ -85,41 +85,111 @@ export default function DashboardPage() {
               )
             }
           />
-          <main
-            className="flex-1 p-6 sm:p-8 overflow-auto flex gap-6"
-            style={{ background: "var(--color-background)" }}
-          >
-            <div className="flex-1 min-w-0 flex flex-col gap-8 max-w-4xl">
-              {/* Welcome — compact hero */}
+        <main
+          className="flex-1 overflow-auto flex gap-6 relative"
+          style={{
+            background: "var(--color-background)",
+            backgroundImage: "linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%)"
+          }}
+        >
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div
+              className="absolute top-20 right-10 w-72 h-72 rounded-full blur-3xl opacity-20"
+              style={{ background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)" }}
+            ></div>
+            <div
+              className="absolute bottom-32 left-10 w-96 h-96 rounded-full blur-3xl opacity-15"
+              style={{ background: "radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)" }}
+            ></div>
+          </div>
+
+          <div className="flex-1 min-w-0 flex flex-col gap-8 max-w-4xl mx-auto p-4 sm:p-6 md:p-8 relative z-10">
+            {/* Welcome — enhanced hero */}
               <section
-                className="rounded-2xl border p-6 sm:p-7 transition-shadow duration-200 hover:shadow-md"
+                className="rounded-2xl border p-6 sm:p-8 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] relative overflow-hidden group"
                 style={{
                   background: "var(--color-background)",
                   borderColor: "var(--color-border-light)",
-                  boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.06)",
+                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
                   borderLeftWidth: "4px",
                   borderLeftColor: "var(--color-info)",
                 }}
               >
-                <h2
-                  className="text-xl sm:text-2xl font-bold mb-2"
+                {/* Subtle gradient overlay */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{
-                    color: "var(--color-text-primary)",
-                    letterSpacing: "-0.025em",
-                    lineHeight: "var(--line-height-tight)",
+                    background: "linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.03) 100%)"
                   }}
-                >
-                  Welcome 👋
-                </h2>
-                <p
-                  className="text-sm sm:text-base max-w-xl"
-                  style={{
-                    color: "var(--color-text-secondary)",
-                    lineHeight: "var(--line-height-relaxed)",
-                  }}
-                >
-                  This is your NoteNest dashboard. Get started by creating your first note.
-                </p>
+                ></div>
+
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center"
+                      style={{
+                        background: "linear-gradient(135deg, var(--color-info) 0%, #8b5cf6 100%)",
+                        boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)"
+                      }}
+                    >
+                      <span className="text-2xl">👋</span>
+                    </div>
+                    <div>
+                      <h2
+                        className="text-xl sm:text-2xl font-bold mb-1"
+                        style={{
+                          color: "var(--color-text-primary)",
+                          letterSpacing: "-0.025em",
+                          lineHeight: "var(--line-height-tight)",
+                        }}
+                      >
+                        Welcome back!
+                      </h2>
+                      <p
+                        className="text-xs font-medium uppercase tracking-wide"
+                        style={{
+                          color: "var(--color-info)",
+                          letterSpacing: "0.05em"
+                        }}
+                      >
+                        Ready to collaborate?
+                      </p>
+                    </div>
+                  </div>
+
+                  <p
+                    className="text-sm sm:text-base max-w-2xl leading-relaxed"
+                    style={{
+                      color: "var(--color-text-secondary)",
+                      lineHeight: "var(--line-height-relaxed)",
+                    }}
+                  >
+                    This is your NoteNest dashboard. Get started by creating your first note and organizing your team's knowledge in one beautiful, searchable space.
+                  </p>
+
+                  {/* Quick stats */}
+                  <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t" style={{ borderColor: "var(--color-border-light)" }}>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full" style={{ background: "var(--color-success)" }}></div>
+                      <span className="text-sm font-medium" style={{ color: "var(--color-text-secondary)" }}>
+                        Real-time collaboration
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full" style={{ background: "var(--color-info)" }}></div>
+                      <span className="text-sm font-medium" style={{ color: "var(--color-text-secondary)" }}>
+                        Enterprise security
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full" style={{ background: "var(--color-warning)" }}></div>
+                      <span className="text-sm font-medium" style={{ color: "var(--color-text-secondary)" }}>
+                        24/7 support
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </section>
 
               {loadError && (

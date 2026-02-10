@@ -232,12 +232,12 @@ export default function WorkspaceNotesPage({ workspaceId }: { workspaceId: strin
           }
         />
       <main
-        className="flex-1 p-6 overflow-auto"
+        className="flex-1 overflow-auto"
         style={{
           background: "var(--color-background)",
         }}
       >
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto p-4 sm:p-6 md:p-8">
         {createSuccessMessage && (
           <div
             className="animate-fade-in-up mb-4 rounded-lg border flex items-center gap-3 px-4 py-3"
