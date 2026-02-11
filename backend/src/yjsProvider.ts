@@ -89,7 +89,7 @@ export class YjsProvider {
 
         const awareness = this.awareness.get(noteId);
         if (awareness) {
-          awareness.applyAwarenessUpdate(update);
+          applyAwarenessUpdate(awareness, update, socket.id);
           // Broadcast awareness to room (excluding sender)
           socket.to(`note-${noteId}`).emit('awareness-update', awarenessData);
         }
