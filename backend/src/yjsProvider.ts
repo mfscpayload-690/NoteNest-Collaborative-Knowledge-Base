@@ -70,7 +70,7 @@ export class YjsProvider {
       });
 
       // Handle Y.js updates
-      socket.on('yjs-update', (updateData: { noteId: string; update: Uint8Array }) => {
+      socket.on('yjs-update', async (updateData: { noteId: string; update: Uint8Array }) => {
         const { noteId, update } = updateData;
         if (!socket.rooms.has(`note-${noteId}`)) return;
 
@@ -79,6 +79,17 @@ export class YjsProvider {
           applyUpdate(doc, update);
           // Broadcast to other clients
           socket.to(`note-${noteId}`).emit('yjs-update', updateData);
+
+          // Create version on significant changes (throttle to avoid too many versions)
+          // This could be enhanced with change detection logic
+          if (Math.random() < 0.1) { // 10% chance to create version (for demo)
+            await this.persistence.createVersion(
+              noteId,
+              socket.userId!,
+              socket.workspaceId!,
+              'Auto-saved during collaboration'
+            );
+          }
         }
       });
 

@@ -92,6 +92,40 @@ export interface RestoreNoteRequest {
   authorId: string;
 }
 
+export interface ForkNoteRequest {
+  authorId: string;
+  branchName?: string;
+}
+
+export interface MergeNoteRequest {
+  forkedNoteId: string;
+  authorId: string;
+  mergeStrategy?: string;
+}
+
+export interface NoteDiff {
+  title: {
+    from: string;
+    to: string;
+    changed: boolean;
+    patches: any[];
+    diff: Array<{
+      operation: 'delete' | 'insert' | 'equal';
+      text: string;
+    }>;
+  };
+  content: {
+    from: string;
+    to: string;
+    changed: boolean;
+    patches: any[];
+    diff: Array<{
+      operation: 'delete' | 'insert' | 'equal';
+      text: string;
+    }>;
+  };
+}
+
 export interface CreateWorkspaceRequest {
   name: string;
   description?: string;

@@ -11,6 +11,9 @@ import {
   UpdateNoteRequest,
   DeleteNoteRequest,
   RestoreNoteRequest,
+  ForkNoteRequest,
+  MergeNoteRequest,
+  NoteDiff,
   RegisterRequest,
   LoginRequest,
   RegisterResponse,
@@ -149,6 +152,27 @@ class ApiService {
       method: 'POST',
       body: JSON.stringify(data),
     });
+  }
+
+  async forkNote(noteId: string, data: ForkNoteRequest): Promise<Note> {
+    return this.request(`/api/notes/${noteId}/fork`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async mergeNote(noteId: string, data: MergeNoteRequest): Promise<RestoreNoteResponse> {
+    return this.request(`/api/notes/${noteId}/merge`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getNoteDiff(noteId: string, fromVersion?: number, toVersion?: number): Promise<NoteDiff> {
+    const params = new URLSearchParams();
+    if (fromVersion !== undefined) params.append('fromVersion', fromVersion.toString());
+    if (toVersion !== undefined) params.append('toVersion', toVersion.toString());
+    return this.request(`/api/notes/${noteId}/diff?${params.toString()}`);
   }
 }
 

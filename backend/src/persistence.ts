@@ -1,5 +1,6 @@
-import { Doc, encodeStateAsUpdate, applyUpdate } from 'yjs';
+import { Doc, encodeStateAsUpdate, applyUpdate, encodeStateVector, decodeStateVector, encodeStateAsUpdateV2 } from 'yjs';
 import Note from './models/Note';
+import NoteVersion from './models/NoteVersion';
 
 export class PersistenceManager {
   private static instance: PersistenceManager;
@@ -92,6 +93,60 @@ export class PersistenceManager {
     } catch (error) {
       console.error(`Error getting snapshot for ${noteId}:`, error);
       return null;
+    }
+  }
+
+  async reconstructDocument(noteId: string, targetVersion: number): Promise<Doc | null> {
+    try {
+      const versions = await NoteVersion.find({ noteId })
+        .sort({ versionNumber: 1 })
+        .lte('versionNumber', targetVersion);
+
+      if (versions.length === 0) return null;
+
+      const doc = new Doc();
+
+      // Apply deltas in order
+      for (const version of versions) {
+        applyUpdate(doc, version.delta);
+      }
+
+      return doc;
+    } catch (error) {
+      console.error(`Error reconstructing document ${noteId} to version ${targetVersion}:`, error);
+      return null;
+    }
+  }
+
+  async createVersion(noteId: string, authorId: string, workspaceId: string, reason?: string, branchName?: string, parentVersion?: number): Promise<void> {
+    try {
+      const doc = await this.loadDocument(noteId);
+      if (!doc) return;
+
+      // Get latest version number
+      const latestVersion = await NoteVersion.findOne({ noteId }).sort({ versionNumber: -1 });
+      const nextVersionNumber = latestVersion ? latestVersion.versionNumber + 1 : 1;
+
+      // Create incremental update from previous state vector
+      const prevStateVector = latestVersion ? latestVersion.stateVector : new Uint8Array(0);
+      const update = encodeStateAsUpdateV2(doc, prevStateVector);
+      const currentStateVector = encodeStateVector(doc);
+
+      const version = new NoteVersion({
+        noteId,
+        versionNumber: nextVersionNumber,
+        delta: Buffer.from(update),
+        stateVector: Buffer.from(currentStateVector),
+        author: authorId,
+        workspaceId,
+        parentVersion: parentVersion || (latestVersion ? latestVersion.versionNumber : undefined),
+        branchName: branchName || (latestVersion ? latestVersion.branchName : undefined),
+        metadata: { reason: reason || 'Manual save' },
+      });
+
+      await version.save();
+    } catch (error) {
+      console.error(`Error creating version for ${noteId}:`, error);
     }
   }
 
