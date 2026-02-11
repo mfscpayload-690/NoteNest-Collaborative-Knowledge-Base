@@ -48,6 +48,8 @@ mongoose.connect(MONGO_URI)
 app.use('/api/users', userRoutes);
 app.use('/api/workspaces', authenticateToken, workspaceRoutes);
 app.use('/api/notes', authenticateToken, noteRoutes);
+app.use('/api/groups', authenticateToken, groupRoutes);
+app.use('/api/permissions', authenticateToken, permissionRoutes);
 
 // Socket.IO setup
 setupSocketHandlers(io);

@@ -2,11 +2,12 @@ import express, { Request, Response } from 'express';
 import Note from '../models/Note';
 import NoteVersion from '../models/NoteVersion';
 import { AuditService } from '../services/auditService';
+import { authenticateToken, validateAccessLink, requirePermission, AuthRequest } from '../middleware/auth';
 
 const router = express.Router();
 
 // Get all notes for a workspace
-router.get('/workspace/:workspaceId', async (req: Request, res: Response) => {
+router.get('/workspace/:workspaceId', authenticateToken, validateAccessLink, requirePermission('read'), async (req: AuthRequest, res: Response) => {
   try {
     const { workspaceId } = req.params;
     const notes = await Note.find({ workspaceId });
