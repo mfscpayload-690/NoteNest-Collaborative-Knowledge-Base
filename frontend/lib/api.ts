@@ -147,10 +147,10 @@ class ApiService {
     return this.request(`/api/notes/${noteId}/versions`);
   }
 
-  async restoreNoteVersion(noteId: string, data: RestoreNoteRequest): Promise<RestoreNoteResponse> {
+  async restoreNoteVersion(noteId: string, versionNumber: number, authorId: string): Promise<RestoreNoteResponse> {
     return this.request(`/api/notes/${noteId}/restore`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ versionNumber, authorId }),
     });
   }
 

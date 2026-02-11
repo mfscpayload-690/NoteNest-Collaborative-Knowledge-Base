@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { apiService, NoteVersion, Note, NoteDiff } from "@/lib/api";
+import { apiService } from "@/lib/api";
+import { NoteVersion, Note, NoteDiff } from "../../shared/types";
 import { usePermissions } from "@/hooks/usePermissions";
 
 interface VersionHistoryModalProps {
@@ -255,7 +256,7 @@ export default function VersionHistoryModal({
                         <div>
                           <p className="text-xs font-medium" style={{ color: "var(--color-text-primary)" }}>Title:</p>
                           <div className="text-xs p-2 rounded border" style={{ background: "var(--color-background)", borderColor: "var(--color-border-light)" }}>
-                            {diff.title.diff.map((part, index) => (
+                            {diff.title.diff.map((part: { operation: string; text: string }, index: number) => (
                               <span
                                 key={index}
                                 style={{
@@ -274,7 +275,7 @@ export default function VersionHistoryModal({
                         <div>
                           <p className="text-xs font-medium" style={{ color: "var(--color-text-primary)" }}>Content:</p>
                           <div className="text-xs p-2 rounded border whitespace-pre-wrap" style={{ background: "var(--color-background)", borderColor: "var(--color-border-light)" }}>
-                            {diff.content.diff.map((part, index) => (
+                            {diff.content.diff.map((part: { operation: string; text: string }, index: number) => (
                               <span
                                 key={index}
                                 style={{

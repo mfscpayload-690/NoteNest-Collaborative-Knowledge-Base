@@ -36,7 +36,7 @@ export interface NoteVersion {
   };
   author: string;
   workspaceId: string;
-  createdAt: string;
+  timestamp: string;
   metadata?: {
     reason?: string;
     source?: string;
