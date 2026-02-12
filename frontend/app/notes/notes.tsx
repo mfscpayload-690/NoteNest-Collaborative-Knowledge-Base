@@ -244,6 +244,22 @@ export default function NotesPage() {
             className="absolute bottom-40 left-20 w-80 h-80 rounded-full blur-3xl opacity-12"
             style={{ background: "radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%)" }}
           ></div>
+          {/* Floating note icons */}
+          <div className="absolute top-20 left-10 opacity-20 animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: "var(--color-text-muted)" }}>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div className="absolute top-40 right-10 opacity-15 animate-pulse" style={{ animationDelay: '1s' }}>
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: "var(--color-text-muted)" }}>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div className="absolute bottom-20 left-1/3 opacity-10 animate-bounce" style={{ animationDelay: '2s', animationDuration: '4s' }}>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: "var(--color-text-muted)" }}>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
         </div>
 
         <div className="max-w-3xl mx-auto p-4 sm:p-6 md:p-8 relative z-10">
@@ -317,17 +333,17 @@ export default function NotesPage() {
           <EmptyState
             size="large"
             icon={
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: "linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)" }}>
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: "var(--color-info)" }}>
+              <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 animate-pulse" style={{ background: "linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)", boxShadow: "0 8px 32px rgba(59, 130, 246, 0.2)" }}>
+                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: "var(--color-info)" }}>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
             }
-            title="No notes yet"
+            title="Welcome to NoteNest"
             description={
               isViewer
                 ? "You can view notes only. Ask an Editor or Admin to create notes for you."
-                : "Get started by creating your first note. Organize your thoughts, ideas, and knowledge in one place."
+                : "Your collaborative knowledge base awaits. Create your first note and start building something amazing together."
             }
             action={
               canCreateNote ? (
@@ -603,21 +619,11 @@ export default function NotesPage() {
             <div className="relative p-6 border-b shrink-0" style={{ borderColor: "var(--color-border-light)" }}>
               <h2
                 id="view-note-title"
-                className="text-xl font-semibold pr-12"
+                className="text-xl font-semibold"
                 style={{ color: "var(--color-text-primary)" }}
               >
                 {viewingNote.title}
               </h2>
-              <button
-                type="button"
-                onClick={() => setViewingNote(null)}
-                className="btn-icon absolute top-3 right-3"
-                aria-label="Close"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
             </div>
             <div className="p-6 overflow-y-auto flex-1 min-h-0">
               {viewingNote.content ? (
@@ -632,6 +638,16 @@ export default function NotesPage() {
                   No content yet.
                 </p>
               )}
+            </div>
+            <div className="p-6 border-t shrink-0 flex justify-end" style={{ borderColor: "var(--color-border-light)" }}>
+              <button
+                type="button"
+                onClick={() => setViewingNote(null)}
+                className="btn-secondary"
+                aria-label="Close"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>

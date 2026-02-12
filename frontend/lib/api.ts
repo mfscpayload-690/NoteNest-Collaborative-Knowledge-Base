@@ -11,6 +11,9 @@ import {
   UpdateNoteRequest,
   DeleteNoteRequest,
   RestoreNoteRequest,
+  ForkNoteRequest,
+  MergeNoteRequest,
+  NoteDiff,
   RegisterRequest,
   LoginRequest,
   RegisterResponse,
@@ -29,11 +32,19 @@ import {
 
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5002';
+
 if (!API_BASE_URL) {
   throw new Error('NEXT_PUBLIC_API_URL environment variable is not set. Please create a .env file based on .env.example.');
 }
 
 class ApiService {
+  private token: string | null = null;
+
+  setToken(token: string) {
+    this.token = token;
+  }
+
   private async request(endpoint: string, options: RequestInit = {}): Promise<any> {
     const url = `${API_BASE_URL}${endpoint}`;
     const config: RequestInit = {
@@ -144,11 +155,32 @@ class ApiService {
     return this.request(`/api/notes/${noteId}/versions`);
   }
 
-  async restoreNoteVersion(noteId: string, data: RestoreNoteRequest): Promise<RestoreNoteResponse> {
+  async restoreNoteVersion(noteId: string, versionNumber: number, authorId: string): Promise<RestoreNoteResponse> {
     return this.request(`/api/notes/${noteId}/restore`, {
+      method: 'POST',
+      body: JSON.stringify({ versionNumber, authorId }),
+    });
+  }
+
+  async forkNote(noteId: string, data: ForkNoteRequest): Promise<Note> {
+    return this.request(`/api/notes/${noteId}/fork`, {
       method: 'POST',
       body: JSON.stringify(data),
     });
+  }
+
+  async mergeNote(noteId: string, data: MergeNoteRequest): Promise<RestoreNoteResponse> {
+    return this.request(`/api/notes/${noteId}/merge`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getNoteDiff(noteId: string, fromVersion?: number, toVersion?: number): Promise<NoteDiff> {
+    const params = new URLSearchParams();
+    if (fromVersion !== undefined) params.append('fromVersion', fromVersion.toString());
+    if (toVersion !== undefined) params.append('toVersion', toVersion.toString());
+    return this.request(`/api/notes/${noteId}/diff?${params.toString()}`);
   }
 }
 
