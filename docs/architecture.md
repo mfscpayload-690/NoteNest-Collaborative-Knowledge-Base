@@ -109,6 +109,40 @@ Workspaces allow NoteNest to support **real-world collaboration**.
 
 ---
 
+## Event-Driven Architecture
+
+NoteNest uses an **internal event bus** and **domain events** to decouple core business logic from side-effects, improving maintainability and scalability.
+
+### Event Bus
+- Lightweight internal event emitter
+- Supports synchronous and asynchronous event handlers
+- Centralized event registration and emission
+- Error handling ensures event failures don't crash core requests
+
+### Domain Events
+Core actions emit structured domain events that other modules can subscribe to:
+
+- `note.created` - Emitted when a new note is created
+- `note.updated` - Emitted when a note is modified
+- `note.deleted` - Emitted when a note is deleted
+- `workspace.created` - Emitted when a new workspace is created
+- `member.added_to_workspace` - Emitted when a user joins a workspace
+- `member.removed_from_workspace` - Emitted when a user leaves a workspace
+- `member.role_updated` - Emitted when a member's role changes
+
+### Event Listeners
+Dedicated listeners handle side-effects independently:
+
+- **Audit Logging**: Records all user actions for compliance and debugging
+- **Cache Invalidation**: Clears cached data when underlying data changes
+- **Activity Feed**: Updates real-time activity streams (placeholder for future implementation)
+
+### Benefits
+- Reduces tight coupling between services
+- Improves long-term scalability
+- Enables future microservice extraction
+- Aligns with modern backend patterns
+
 ## Authentication vs Authorization
 
 ### Authentication

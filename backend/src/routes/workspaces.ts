@@ -3,6 +3,8 @@ import Workspace from '../models/Workspace';
 import { AuditService } from '../services/auditService';
 import { authenticateToken, AuthRequest, requirePermission } from '../middleware/auth';
 import { getCacheService, CacheKeys } from '../services/cacheService';
+import { getEventBus } from '../services/eventBus';
+import { EVENT_NAMES, WorkspaceCreatedEvent, MemberAddedToWorkspaceEvent, MemberRemovedFromWorkspaceEvent, MemberRoleUpdatedEvent } from '../types/events';
 
 const router = express.Router();
 
@@ -40,15 +42,18 @@ router.post('/', authenticateToken, async (req: Request, res: Response) => {
     const workspace = new Workspace({ name, description, owner: ownerId });
     await workspace.save();
 
-    // Log the event
-    await AuditService.logEvent(
-      'workspace_created',
+    // Emit domain event
+    const eventBus = getEventBus();
+    const event: WorkspaceCreatedEvent = {
+      type: EVENT_NAMES.WORKSPACE_CREATED,
+      timestamp: new Date(),
+      actorId: ownerId,
+      workspaceId: workspace._id.toString(),
+      name,
+      description,
       ownerId,
-      workspace._id.toString(),
-      workspace._id.toString(),
-      'workspace',
-      { name, description }
-    );
+    };
+    await eventBus.emit(EVENT_NAMES.WORKSPACE_CREATED, event);
 
     res.status(201).json(workspace);
   } catch (error) {
@@ -74,15 +79,18 @@ router.post('/:id/members', authenticateToken, async (req: Request, res: Respons
     workspace.members.push({ userId, role });
     await workspace.save();
 
-    // Log the event
-    await AuditService.logEvent(
-      'member_added_to_workspace',
-      addedBy,
-      workspace._id.toString(),
+    // Emit domain event
+    const eventBus = getEventBus();
+    const event: MemberAddedToWorkspaceEvent = {
+      type: EVENT_NAMES.MEMBER_ADDED_TO_WORKSPACE,
+      timestamp: new Date(),
+      actorId: addedBy,
+      workspaceId: workspace._id.toString(),
       userId,
-      'user',
-      { role }
-    );
+      role,
+      addedBy,
+    };
+    await eventBus.emit(EVENT_NAMES.MEMBER_ADDED_TO_WORKSPACE, event);
 
     res.json(workspace);
   } catch (error) {
@@ -158,15 +166,19 @@ router.put('/:id/members/:userId', authenticateToken, async (req: AuthRequest, r
     memberToUpdate.role = role;
     await workspace.save();
 
-    // Log the event
-    await AuditService.logEvent(
-      'member_role_updated',
-      req.user!._id.toString(),
-      workspace._id.toString(),
-      req.params.userId,
-      'user',
-      { oldRole, newRole: role }
-    );
+    // Emit domain event
+    const eventBus = getEventBus();
+    const event: MemberRoleUpdatedEvent = {
+      type: EVENT_NAMES.MEMBER_ROLE_UPDATED,
+      timestamp: new Date(),
+      actorId: req.user!._id.toString(),
+      workspaceId: workspace._id.toString(),
+      userId: req.params.userId,
+      oldRole,
+      newRole: role,
+      updatedBy: req.user!._id.toString(),
+    };
+    await eventBus.emit(EVENT_NAMES.MEMBER_ROLE_UPDATED, event);
 
     res.json(workspace);
   } catch (error) {

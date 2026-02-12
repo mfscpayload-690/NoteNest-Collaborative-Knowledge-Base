@@ -7,6 +7,8 @@ import { AuditService } from '../services/auditService';
 import { authenticateToken, validateAccessLink, requirePermission, AuthRequest } from '../middleware/auth';
 import { diff_match_patch } from 'diff-match-patch';
 import { getCacheService, CacheKeys } from '../services/cacheService';
+import { getEventBus } from '../services/eventBus';
+import { EVENT_NAMES, NoteCreatedEvent, NoteUpdatedEvent, NoteDeletedEvent } from '../types/events';
 
 const router = express.Router();
 
@@ -73,15 +75,18 @@ router.post('/', authenticateToken, requirePermission('write'), async (req: Auth
     const persistence = PersistenceManager.getInstance();
     await persistence.saveDocument(note._id.toString(), doc);
 
-    // Log the event
-    await AuditService.logEvent(
-      'note_created',
-      authorId,
+    // Emit domain event
+    const eventBus = getEventBus();
+    const event: NoteCreatedEvent = {
+      type: EVENT_NAMES.NOTE_CREATED,
+      timestamp: new Date(),
+      actorId: authorId,
       workspaceId,
-      note._id.toString(),
-      'note',
-      { title, version: 1 }
-    );
+      noteId: note._id.toString(),
+      title,
+      authorId,
+    };
+    await eventBus.emit(EVENT_NAMES.NOTE_CREATED, event);
 
     res.status(201).json(note);
   } catch (error) {
@@ -139,23 +144,17 @@ router.delete('/:id', authenticateToken, requirePermission('write'), async (req:
       return res.status(404).json({ error: 'Note not found' });
     }
 
-    // Invalidate cache for this note and workspace notes
-    const cacheService = getCacheService();
-    if (cacheService) {
-      await cacheService.delete(CacheKeys.note(id));
-      await cacheService.delete(CacheKeys.workspaceNotes(note.workspaceId.toString()));
-      await cacheService.delete(CacheKeys.noteVersions(id));
-    }
-
-    // Log the event
-    await AuditService.logEvent(
-      'note_deleted',
-      authorId,
-      note.workspaceId.toString(),
-      id,
-      'note',
-      { title: note.title }
-    );
+    // Emit domain event
+    const eventBus = getEventBus();
+    const event: NoteDeletedEvent = {
+      type: EVENT_NAMES.NOTE_DELETED,
+      timestamp: new Date(),
+      actorId: authorId,
+      workspaceId: note.workspaceId.toString(),
+      noteId: id,
+      title: note.title,
+    };
+    await eventBus.emit(EVENT_NAMES.NOTE_DELETED, event);
 
     res.json({ message: 'Note deleted' });
   } catch (error) {

@@ -11,6 +11,7 @@ import permissionRoutes from './routes/permissions';
 import { requestLoggingMiddleware } from './middleware/logging';
 import { authenticateToken } from './middleware/auth';
 import { initializeCache, getCacheService, CacheKeys } from './services/cacheService';
+import { registerEventListeners } from './services/eventListeners';
 
 dotenv.config();
 
@@ -43,6 +44,9 @@ initializeCache().then(() => {
 }).catch((err: unknown) => {
   console.warn("⚠️  Redis cache initialization failed, continuing without cache:", err instanceof Error ? err.message : String(err));
 });
+
+// Register event listeners
+registerEventListeners();
 
 // Routes
 app.use('/api/users', userRoutes);
