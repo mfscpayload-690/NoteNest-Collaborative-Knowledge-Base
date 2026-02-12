@@ -11,7 +11,7 @@ async function auditLoggingListener(event: DomainEvent): Promise<void> {
   let targetType: string;
   let metadata: Record<string, any> = {};
 
-  switch (event.timestamp) { // Note: Using timestamp as discriminator, but actually check event type
+  switch (event.type) {
     case EVENT_NAMES.NOTE_CREATED:
       const noteCreated = event as any;
       action = 'note_created';
