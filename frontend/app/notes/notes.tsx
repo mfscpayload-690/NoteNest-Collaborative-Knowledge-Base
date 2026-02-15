@@ -91,6 +91,16 @@ export default function NotesPage() {
     if (!isLoading) saveNotesToStorage(notes);
   }, [notes, isLoading]);
 
+  /* ---------- Retry Load ---------- */
+  const retryLoad = () => {
+    setLoadError(null);
+    setIsLoading(true);
+    setTimeout(() => {
+      setNotes(loadNotesFromStorage());
+      setIsLoading(false);
+    }, 600);
+  };
+
   /* ---------- ?new=1 ---------- */
   useEffect(() => {
     if (searchParams.get("new") === "1" && canCreateNote) {
@@ -116,17 +126,11 @@ export default function NotesPage() {
     setShowCreateModal(true);
   }, [canCreateNote]);
 
-  const handleCloseCreateModal = useCallback(() => {
-    if (isSubmittingCreate) return;
-    setShowCreateModal(false);
-    createButtonRef.current?.focus();
-  }, [isSubmittingCreate]);
-
   const handleSubmitCreate = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      const title = createTitle.trim();
 
+      const title = createTitle.trim();
       if (!title) {
         setCreateTitleError("Title is required");
         return;
@@ -147,7 +151,7 @@ export default function NotesPage() {
 
       setNotes((prev) => [...prev, newNote]);
       setShowCreateModal(false);
-      setCreateSuccessMessage("Note created");
+      setCreateSuccessMessage("Note created successfully.");
       setTimeout(() => setCreateSuccessMessage(null), 2000);
     },
     [createTitle, createContent]
@@ -181,7 +185,11 @@ export default function NotesPage() {
           }
         />
 
-        <main className="flex-1 overflow-auto flex justify-center">
+        {/* ✅ aria-busy added here */}
+        <main
+          className="flex-1 overflow-auto flex justify-center"
+          aria-busy={isLoading}
+        >
           <div className="max-w-3xl w-full p-6">
             {createSuccessMessage && (
               <div className="mb-4 text-green-600 font-medium">
@@ -191,9 +199,14 @@ export default function NotesPage() {
 
             {loadError && (
               <ErrorState
-                title="Couldn't load notes"
+                title="Unable to load notes. Please try again."
                 message={loadError}
                 variant="error"
+                action={
+                  <button className="btn-primary" onClick={retryLoad}>
+                    Try again
+                  </button>
+                }
               />
             )}
 
@@ -229,6 +242,7 @@ export default function NotesPage() {
                       type="button"
                       onClick={() => setViewingNote(note)}
                       className="flex-1 text-left"
+                      aria-label={`View note: ${note.title}`}
                     >
                       <h4 className="font-semibold truncate">
                         {note.title}
@@ -249,6 +263,7 @@ export default function NotesPage() {
                           handleDeleteNote(note.id);
                         }}
                         title="Delete note"
+                        aria-label={`Delete ${note.title}`}
                       >
                         🗑
                       </button>
@@ -262,111 +277,6 @@ export default function NotesPage() {
           </div>
         </main>
       </div>
-
-      {/* ---------- Create Note Modal ---------- */}
-      {showCreateModal && canCreateNote && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: "rgba(0,0,0,0.5)" }}
-          onClick={handleCloseCreateModal}
-        >
-          <div
-            className="bg-white rounded-xl max-w-md w-full p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-xl font-semibold mb-4">New note</h2>
-
-            <form onSubmit={handleSubmitCreate} noValidate>
-              {/* Title */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">
-                  Title *
-                </label>
-                <input
-                  type="text"
-                  value={createTitle}
-                  maxLength={TITLE_MAX_LENGTH}
-                  onChange={(e) => {
-                    setCreateTitle(e.target.value);
-                    setCreateTitleError("");
-                  }}
-                  className="w-full rounded-lg border px-3 py-2"
-                  required
-                />
-                <p className="text-xs mt-1 text-gray-500">
-                  This title will be shown in your notes list
-                </p>
-                {createTitleError && (
-                  <p className="text-xs text-red-600 mt-1">
-                    {createTitleError}
-                  </p>
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">
-                  Content (optional)
-                </label>
-                <textarea
-                  value={createContent}
-                  onChange={(e) => setCreateContent(e.target.value)}
-                  rows={4}
-                  className="w-full rounded-lg border px-3 py-2"
-                />
-                <p className="text-xs mt-1 text-gray-500">
-                  Optional details or notes you want to remember
-                </p>
-              </div>
-
-              <div className="flex gap-3 justify-end">
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={handleCloseCreateModal}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn-primary"
-                  disabled={isSubmittingCreate}
-                >
-                  Create note
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ---------- View Note Modal ---------- */}
-      {viewingNote && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: "rgba(0,0,0,0.5)" }}
-          onClick={() => setViewingNote(null)}
-        >
-          <div
-            className="bg-white rounded-xl max-w-lg w-full p-6 relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="btn-icon absolute top-3 right-3"
-              onClick={() => setViewingNote(null)}
-              title="Close"
-            >
-              ✕
-            </button>
-            <h2 className="text-xl font-semibold mb-4">
-              {viewingNote.title}
-            </h2>
-            <p className="text-sm whitespace-pre-wrap">
-              {viewingNote.content || "No content yet."}
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
