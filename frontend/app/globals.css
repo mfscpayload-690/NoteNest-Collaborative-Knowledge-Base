@@ -18,6 +18,7 @@
 }
 
 :root {
+  /* Neutral */
   --color-gray-50: #fafafa;
   --color-gray-100: #f5f5f5;
   --color-gray-200: #e5e5e5;
@@ -29,22 +30,26 @@
   --color-gray-800: #262626;
   --color-gray-900: #171717;
 
-  --color-background: #ffffff;
-  --color-foreground: #171717;
+  /* Background & Text */
+  --color-background: #F3F0E6;
+  --color-foreground: #1A1A1A;
 
   --color-text-primary: var(--color-gray-900);
   --color-text-secondary: var(--color-gray-600);
   --color-text-muted: var(--color-gray-400);
 
+  /* Borders */
   --color-border-light: var(--color-gray-200);
   --color-border-medium: var(--color-gray-300);
   --color-border-dark: var(--color-gray-400);
 
+  /* Feedback */
   --color-info: #3b82f6;
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
 
+  /* Typography */
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -54,72 +59,113 @@
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
 }
 
-/* ---------------- Buttons ---------------- */
+/* =====================================================
+   Base interactions
+   ===================================================== */
 
-button {
+button,
+a,
+[role="button"] {
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-/* Primary button */
-.btn-primary {
-  min-height: 40px;
-  padding: 0.5rem 1rem;
-  font-size: var(--font-size-sm);
-  border-radius: 0.5rem;
-  background: linear-gradient(135deg, var(--color-info), #8b5cf6);
-  color: white;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-/* Secondary button */
+/* =====================================================
+   Navigation contrast fix (light theme)
+   ===================================================== */
+
+nav a,
+nav button {
+  color: var(--color-text-primary);
+  opacity: 1;
+}
+
+nav input {
+  color: var(--color-text-primary);
+  background: var(--color-background);
+}
+
+nav input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 1;
+}
+
+/* =====================================================
+   Button normalization
+   ===================================================== */
+
+.btn-primary,
 .btn-secondary {
   min-height: 40px;
   padding: 0.5rem 1rem;
   font-size: var(--font-size-sm);
   border-radius: 0.5rem;
-  background: white;
-  color: var(--color-info);
-  border: 1px solid var(--color-info);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
 }
 
-/* Icon-only buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-info), #8b5cf6);
+  color: white;
+  border: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-info);
+  border: 2px solid var(--color-info);
+}
+
 .btn-icon {
   width: 40px;
   height: 40px;
-  padding: 0;
   border-radius: 0.5rem;
   background: transparent;
-  border: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Hover / focus */
-.btn-primary:hover,
-.btn-secondary:hover,
-.btn-icon:hover {
-  transform: translateY(-1px);
-}
+/* =====================================================
+   Focus-visible accessibility
+   ===================================================== */
 
-button:focus-visible {
+*:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+  border-radius: 8px;
 }
 
-/* Disabled */
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* =====================================================
+   Animations
+   ===================================================== */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
 }
